@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "xcoder",
+    "database": "notelifyDB",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "xcoder",
+    "database": "notelifyDB_test",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "xcoder",
+    "database": "notelifyDB_prod",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
