@@ -118,7 +118,7 @@ const uploadAttachment = async (req: Request, res: Response) => {
                             user_id: user.id,
                             title: noteData.value.title,
                             content: noteData.value.content,
-                            is_draft: true,
+                            is_synced: true,
                             pinned: noteData.value.isPinned,
                             bg_color: noteData.value.bgThemeID,
                             wallpaper: noteData.value.wallpaperID

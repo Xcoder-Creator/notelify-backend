@@ -67,7 +67,7 @@ const finalizeNote = async (req: Request, res: Response) => {
                 getNote.pinned = isPinned;
                 getNote.bg_color = bgThemeID;
                 getNote.wallpaper = wallpaperID;
-                getNote.is_draft = false;
+                getNote.is_synced = true;
 
                 await getNote.save(); // Save the update
 
@@ -87,7 +87,7 @@ const finalizeNote = async (req: Request, res: Response) => {
                     ]
                 });
 
-                return res.status(200).json({ message: "Note finalized", noteID: getNote.note_id, note: noteWithAttachments, accessToken: accessToken ? accessToken : null });
+                return res.status(200).json({ message: "Note finalized", state: "updated", noteID: getNote.note_id, note: noteWithAttachments, accessToken: accessToken ? accessToken : null });
             } else {
                 /*
                     If the note does not exist, then create it.
@@ -96,7 +96,7 @@ const finalizeNote = async (req: Request, res: Response) => {
                     user_id: user.id,
                     title: title,
                     content: content,
-                    is_draft: false,
+                    is_synced: true,
                     pinned: isPinned,
                     bg_color: bgThemeID,
                     wallpaper: wallpaperID
@@ -118,7 +118,7 @@ const finalizeNote = async (req: Request, res: Response) => {
                     ]
                 });
 
-                return res.status(200).json({ message: "Note finalized", noteID: noteID, note: noteWithAttachments, accessToken: accessToken ? accessToken : null });
+                return res.status(200).json({ message: "Note finalized", state: "updated", realNoteID: newNote.note_id, tempNoteID: noteID, note: noteWithAttachments, accessToken: accessToken ? accessToken : null });
             }
         } catch (error) {
             console.error("Error from finalize note controller: ", error);

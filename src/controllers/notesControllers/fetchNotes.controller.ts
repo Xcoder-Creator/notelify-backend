@@ -36,50 +36,80 @@ const fetchNotes = async (req: Request, res: Response) => {
             const pinnedNotesWithAttachments = await Notes.findAll({
                 where: { 
                     user_id: user.id,
-                    is_draft: false,
+                    is_synced: true,
                     pinned: true
                 },
+                attributes: [
+                    ['note_id', 'noteID'],
+                    ['user_id', 'userID'],
+                    'title',
+                    'content',
+                    ['is_synced', 'isSynced'],
+                    'pinned',
+                    ['bg_color', 'bgColor'],
+                    'wallpaper',
+                    ['created_at', 'createdAt'],
+                    ['updated_at', 'updatedAt']
+                ],
                 include: [
                     {
                         model: Attachments,
                         as: "attachments",
-                        attributes: ["id", "file_url", "file_type"],
+                        attributes: [
+                            ["id", "attachmentID"], 
+                            ["file_url", "fileURL"], 
+                            ["file_type", "fileType"]
+                        ],
                         separate: true
                     },
                 ],
                 limit: pageSize,
                 offset: (pinnedPage - 1) * pageSize,
-                order: [["created_at", "DESC"]],
+                order: [["created_at", "DESC"]]
             });
 
             // Fetch the users notes that are not drafts and unpinned
             const unpinnedNotesWithAttachments = await Notes.findAll({
                 where: { 
                     user_id: user.id,
-                    is_draft: false,
+                    is_synced: true,
                     pinned: false
                 },
+                attributes: [
+                    ['note_id', 'noteID'],
+                    ['user_id', 'userID'],
+                    'title',
+                    'content',
+                    ['is_synced', 'isSynced'],
+                    'pinned',
+                    ['bg_color', 'bgColor'],
+                    'wallpaper',
+                    ['created_at', 'createdAt'],
+                    ['updated_at', 'updatedAt']
+                ],
                 include: [
                     {
                         model: Attachments,
                         as: "attachments",
-                        attributes: ["id", "file_url", "file_type"],
+                        attributes: [
+                            ["id", "attachmentID"], 
+                            ["file_url", "fileURL"], 
+                            ["file_type", "fileType"]
+                        ],
                         separate: true
                     },
                 ],
                 limit: pageSize,
                 offset: (othersPage - 1) * pageSize,
-                order: [["created_at", "DESC"]],
+                order: [["created_at", "DESC"]]
             });
 
             return res.status(200).json({ 
                 message: "Notes fetched successfully", 
-                data: { 
-                    pinnedNotes: pinnedNotesWithAttachments, 
-                    unpinnedNotes: unpinnedNotesWithAttachments, 
-                    pinnedPage: pinnedNotesWithAttachments.length > 0 ? pinnedPage + 1 : pinnedPage, 
-                    othersPage: unpinnedNotesWithAttachments.length > 0 ? othersPage + 1 : othersPage 
-                }, 
+                pinnedNotes: pinnedNotesWithAttachments, 
+                unpinnedNotes: unpinnedNotesWithAttachments, 
+                pinnedPage: pinnedNotesWithAttachments.length > 0 ? pinnedPage + 1 : pinnedPage, 
+                othersPage: unpinnedNotesWithAttachments.length > 0 ? othersPage + 1 : othersPage, 
                 accessToken: accessToken ? accessToken : null 
             });
         } catch (error) {

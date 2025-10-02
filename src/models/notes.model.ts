@@ -1,4 +1,4 @@
-import { Model, DataTypes, InferAttributes, InferCreationAttributes, CreationOptional } from "sequelize";
+import { Model, DataTypes, InferAttributes, InferCreationAttributes, CreationOptional, NonAttribute } from "sequelize";
 import { sequelize } from "../config/database";
 
 /**
@@ -21,8 +21,8 @@ export class Notes extends Model<
     /** The content of the note */
     declare content: string | null; 
 
-    /** Whether the note is a draft or not */
-    declare is_draft: boolean;
+    /** Whether the note is synced with the server or not */
+    declare is_synced: boolean;
 
     /** Whether the note is pinned or not */
     declare pinned: boolean;
@@ -32,6 +32,10 @@ export class Notes extends Model<
 
     /** The background wallpaper of the note */
     declare wallpaper: number;
+
+    /** Sequelize-managed timestamps (not part of init attrs) */
+    declare readonly created_at: NonAttribute<Date>;
+    declare readonly updated_at: NonAttribute<Date>;
 }
 
 Notes.init({
@@ -53,7 +57,7 @@ Notes.init({
         type: DataTypes.TEXT,
         allowNull: true,
     },
-    is_draft: {
+    is_synced: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: true
@@ -74,5 +78,7 @@ Notes.init({
     sequelize,
     tableName: "notes",
     underscored: true,
-    timestamps: true
+    timestamps: true,
+    createdAt: "created_at",
+    updatedAt: "updated_at"
 });

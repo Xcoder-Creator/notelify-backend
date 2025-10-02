@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import fetchNotes from '../controllers/notesControllers/fetchNotes.controller';
 import { authentication } from '../middleware/auth';
-import createNote from '../controllers/notesControllers/createNote.controller';
+import createOrUpdateNote from '../controllers/notesControllers/createOrUpdateNote.controller';
 import uploadAttachment from '../controllers/notesControllers/uploadAttachment.controller';
 import { upload } from '../config/multer';
 import { handleMulterErrors } from '../middleware/handleMulterErrors';
 import finalizeNote from '../controllers/notesControllers/finalizeNote.controller';
 import deleteAttachment from '../controllers/notesControllers/deleteAttachment.controller';
+import updateThemeAndWallpaper from '../controllers/notesControllers/updateThemeAndWallpaper.controller';
 
 /* 
     This is the notes route where all the endpoints for
@@ -16,7 +17,8 @@ import deleteAttachment from '../controllers/notesControllers/deleteAttachment.c
 const router = Router();
 
 router.post('/fetch-notes', authentication, fetchNotes); // For fetching notes
-router.post('/create-note', authentication, createNote); // For creating notes
+router.post('/create-or-update-note', authentication, createOrUpdateNote); // For creating/updating notes
+router.post('/update-theme-and-wallpaper', authentication, updateThemeAndWallpaper); // For updating the theme and wallpaper of the notes
 router.post(
     '/upload-attachment', 
     authentication, 
