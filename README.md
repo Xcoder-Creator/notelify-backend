@@ -1,6 +1,17 @@
-# Notelify Backend
+# 📝 Notelify — Backend
 
-A Node.js backend project using TypeScript and Express.
+Notelify is a modern note-taking web application inspired by Google Keep Notes.
+
+This repository contains the **backend** built with Node.js, TypeScript, Express and Cloudinary.
+
+## 🛠️ Tech Stack
+
+- React.js  
+- TypeScript  
+- Next.js
+- Cloudinary
+
+---
 
 ## Scripts
 - `npm run dev` — Start development server with auto-reload
